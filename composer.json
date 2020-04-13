@@ -1,0 +1,70 @@
+{
+  "name": "telegram-bot-api/laravel",
+  "type": "library",
+  "description": "Laravel Service Provider for Telegram Bot API PHP SDK",
+  "keywords": [
+    "telegram bot sdk laravel",
+    "php telegram bot",
+    "lumen telegram bot",
+    "laravel telegram",
+    "laravel telegram bot",
+    "telegram-bot-api"
+  ],
+  "homepage": "https://github.com/telegram-bot-api/laravel",
+  "license": "BSD-3-Clause",
+  "authors": [
+    {
+      "name": "Irfaq Syed",
+      "email": "syed+gh@lukonet.com",
+      "homepage": "https://github.com/irazasyed",
+      "role": "Developer"
+    }
+  ],
+  "require": {
+    "illuminate/support": "^6.0 || ^7.0",
+    "telegram-bot-api/php-sdk": "^4.0@dev"
+  },
+  "require-dev": {
+    "phpunit/phpunit": ">=8.5"
+  },
+  "suggest": {
+    "illuminate/container": "Hold dependencies to be injected in commands constructors",
+    "irazasyed/larasupport": "Allows you to use any Laravel Package in Lumem"
+  },
+  "config": {
+    "sort-packages": true
+  },
+  "extra": {
+    "branch-alias": {
+      "dev-master": "4.0-dev"
+    },
+    "laravel": {
+      "providers": [
+        "Telegram\\Bot\\Laravel\\TelegramServiceProvider"
+      ],
+      "aliases": {
+        "Telegram": "Telegram\\Bot\\Laravel\\Facades\\Telegram"
+      }
+    }
+  },
+  "autoload": {
+    "psr-4": {
+      "Telegram\\Bot\\Laravel\\": "src/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Telegram\\Bot\\Laravel\\Tests\\": "tests/"
+    }
+  },
+  "scripts": {
+    "test": "phpunit"
+  },
+  "support": {
+    "issues": "https://github.com/telegram-bot-api/laravel/issues",
+    "forum": "https://phpchat.co",
+    "chat": "https://t.me/PHPChatCo",
+    "source": "https://github.com/telegram-bot-api/laravel",
+    "docs": "https://github.com/telegram-bot-api/laravel"
+  }
+}
