@@ -15,7 +15,6 @@ use Telegram\Bot\Laravel\Artisan\WebhookCommand;
  */
 class TelegramServiceProvider extends ServiceProvider implements DeferrableProvider
 {
-
     /**
      * Boot the service provider.
      *
@@ -26,7 +25,7 @@ class TelegramServiceProvider extends ServiceProvider implements DeferrableProvi
         $source = __DIR__ . '/../config/telegram.php';
 
         if ($this->app instanceof LaravelApplication && $this->app->runningInConsole()) {
-            $this->publishes([$source => config_path('telegram.php')]);
+            $this->publishes([$source => config_path('telegram.php')], 'config');
         } elseif ($this->app instanceof LumenApplication) {
             $this->app->configure('telegram');
         }
@@ -41,36 +40,11 @@ class TelegramServiceProvider extends ServiceProvider implements DeferrableProvi
      */
     public function register(): void
     {
-        $this->registerManager();
-        $this->registerBindings();
-        $this->commands('telegram.bot.commands.webhook');
-    }
+        $this->app->bind(BotsManager::class, fn($app) => (new BotsManager($app['config']['telegram']))->setContainer($app));
+        $this->app->bind(Api::class, fn($app) => $app[BotsManager::class]->bot());
+        $this->app->bind('command.telegram.bot:webhook', WebhookCommand::class);
 
-    /**
-     * Register the manager class.
-     *
-     * @return void
-     */
-    protected function registerManager(): void
-    {
-        $this->app->bind(
-            'telegram',
-            fn($app) => (new BotsManager((array)$app['config']['telegram']))->setContainer($app)
-        );
-
-        $this->app->alias('telegram', BotsManager::class);
-    }
-
-    /**
-     * Register the bindings.
-     *
-     * @return void
-     */
-    protected function registerBindings(): void
-    {
-        $this->app->bind('telegram.bot', fn($app) => $app['telegram']->bot());
-        $this->app->alias('telegram.bot', Api::class);
-        $this->app->bind('telegram.bot.commands.webhook', WebhookCommand::class);
+        $this->commands('command.telegram.bot:webhook');
     }
 
     /**
@@ -80,6 +54,6 @@ class TelegramServiceProvider extends ServiceProvider implements DeferrableProvi
      */
     public function provides(): array
     {
-        return ['telegram', 'telegram.bot', BotsManager::class, Api::class];
+        return [BotsManager::class, Api::class];
     }
 }
