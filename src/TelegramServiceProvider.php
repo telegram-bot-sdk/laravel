@@ -40,11 +40,14 @@ class TelegramServiceProvider extends ServiceProvider implements DeferrableProvi
      */
     public function register(): void
     {
-        $this->app->bind(BotsManager::class, fn($app) => (new BotsManager($app['config']['telegram']))->setContainer($app));
-        $this->app->bind(Api::class, fn($app) => $app[BotsManager::class]->bot());
-        $this->app->bind('command.telegram.bot:webhook', WebhookCommand::class);
+        $this->app->bind(
+            BotsManager::class,
+            fn ($app) => (new BotsManager($app['config']['telegram']))->setContainer($app)
+        );
+        $this->app->bind(Api::class, fn ($app) => $app[BotsManager::class]->bot());
+        $this->app->bind('command.telegram:webhook', WebhookCommand::class);
 
-        $this->commands('command.telegram.bot:webhook');
+        $this->commands('command.telegram:webhook');
     }
 
     /**
