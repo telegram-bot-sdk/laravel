@@ -36,7 +36,7 @@ This project is released under the [BSD 3-Clause][link-license] License.
 
 [link-author]: https://github.com/irazasyed
 [link-repo]: https://github.com/telegram-bot-sdk/laravel
-[link-sdk]: https://github.com/telegram-bot-sdk/php-sdk
+[link-sdk]: https://github.com/telegram-bot-sdk/telegram-bot-sdk
 [link-issues]: https://github.com/telegram-bot-sdk/laravel/issues
 [link-contributors]: https://github.com/telegram-bot-sdk/laravel/contributors
 [link-docs]: https://telegram-bot-sdk.readme.io/docs
