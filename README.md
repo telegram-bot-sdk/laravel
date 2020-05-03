@@ -22,6 +22,10 @@ Documentation for the SDK & Laravel usage can be found on the [website][link-doc
 
 Any issues, feedback, suggestions or questions please use issue tracker [here][link-issues].
 
+## Security
+
+If you discover a security vulnerability within this package, please email Syed at `syed at lukonet.com`. All security vulnerabilities will be promptly addressed. You may view our full security policy [here][link-security-policy].
+
 ## Credits
 
 - [Syed Irfaq R.][link-author]
@@ -43,5 +47,6 @@ This project is released under the [BSD 3-Clause][link-license] License.
 [link-license]: https://github.com/telegram-bot-sdk/laravel/blob/master/LICENSE.md
 [link-contributing]: https://github.com/telegram-bot-sdk/laravel/blob/master/.github/CONTRIBUTING.md
 [link-laravel-package]: https://github.com/telegram-bot-sdk/laravel
+[link-security-policy]: https://github.com/telegram-bot-sdk/laravel/security/policy
 [link-telegram-bot-api]: https://core.telegram.org/bots
 [link-phpchat]: https://phpchat.co
