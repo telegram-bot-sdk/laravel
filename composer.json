@@ -1,16 +1,17 @@
 {
-  "name": "telegram-bot-api/laravel",
+  "name": "telegram-bot-sdk/laravel",
   "type": "library",
-  "description": "Laravel Service Provider for Telegram Bot API PHP SDK",
+  "description": "Laravel Package for Telegram Bot SDK",
   "keywords": [
     "telegram bot sdk laravel",
     "php telegram bot",
     "lumen telegram bot",
     "laravel telegram",
     "laravel telegram bot",
+    "laravel telegram bot sdk",
     "telegram-bot-api"
   ],
-  "homepage": "https://github.com/telegram-bot-api/laravel",
+  "homepage": "https://github.com/telegram-bot-sdk/laravel",
   "license": "BSD-3-Clause",
   "authors": [
     {
@@ -22,9 +23,7 @@
   ],
   "require": {
     "illuminate/console": "^6.0 || ^7.0",
-    "illuminate/container": "^6.0 || ^7.0",
-    "illuminate/support": "^6.0 || ^7.0",
-    "telegram-bot-api/php-sdk": "^4.0@dev"
+    "telegram-bot-sdk/telegram-bot-sdk": "^4.0@dev"
   },
   "require-dev": {
     "phpunit/phpunit": ">=8.5"
@@ -62,10 +61,10 @@
     "test": "phpunit"
   },
   "support": {
-    "issues": "https://github.com/telegram-bot-api/laravel/issues",
+    "issues": "https://github.com/telegram-bot-sdk/laravel/issues",
     "forum": "https://phpchat.co",
     "chat": "https://t.me/PHPChatCo",
-    "source": "https://github.com/telegram-bot-api/laravel",
-    "docs": "https://github.com/telegram-bot-api/laravel"
+    "source": "https://github.com/telegram-bot-sdk/laravel",
+    "docs": "https://github.com/telegram-bot-sdk/laravel"
   }
 }

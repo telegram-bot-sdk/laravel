@@ -13,7 +13,7 @@ return [
     |
     */
 
-    'default' => 'common',
+    'use' => 'default',
 
     /*
     |--------------------------------------------------------------------------
@@ -37,35 +37,81 @@ return [
     |                   Example: (string) '123456:ABC-DEF1234ghIkl-zyx57W2v1u123ew11'.
     |
     |       - commands: (Optional) Commands to register for this bot,
-    |                   Supported Values: "Command Group Name", "Shared Command Name", "Command => Full Path to Class".
+    |                   Supported Values: "Command Group Name", "Command Repository Name", "Command => Full Path to Class".
     |                   Default: Registers Global Commands.
     |                   Example: (array) [
     |                       'admin', // Command Group Name.
-    |                       'status', // Shared Command Name.
+    |                       'status', // Command Repository Name.
     |                       'hello' => Acme\Project\Commands\HelloCommand::class,
     |                       'bye'   => Acme\Project\Commands\ByeCommand::class,
     |                   ]
     */
 
     'bots' => [
-        'common' => [
+        'default' => [
             'username' => 'TelegramBot',
-            'token' => env('TELEGRAM_BOT_TOKEN', 'YOUR-BOT-TOKEN'),
-            'certificate_path' => env('TELEGRAM_CERTIFICATE_PATH', 'YOUR-CERTIFICATE-PATH'),
-            'webhook_url' => env('TELEGRAM_WEBHOOK_URL', 'YOUR-BOT-WEBHOOK-URL'),
+            'token'    => env('TELEGRAM_BOT_TOKEN', 'YOUR-BOT-TOKEN'),
+
             'commands' => [
 //                'start' => Acme\Bots\TelegramBot\Commands\Start::class,
+            ],
+
+            'listen' => [
+                'update.received'             => [],
+
+                // (Optional).
+                // If you would like to process specific types of updates you may
+                // define the processing class for each type here.
+                'update.message'              => [],
+                'update.edited_message'       => [],
+                'update.channel_post'         => [],
+                'update.edited_channel_post'  => [],
+                'update.inline_query'         => [],
+                'update.chosen_inline_result' => [],
+                'update.callback_query'       => [],
+                'update.shipping_query'       => [],
+                'update.pre_checkout_query'   => [],
+                'update.poll'                 => [],
+                'update.poll_answer'          => [],
             ],
         ],
 
         'second' => [
             'username' => 'MySecondBot',
-            'token' => '123456:abc',
-            'commands' => [
-//                'register' => Acme\Bots\MySecondBot\Commands\Register::class,
+            'token'    => '123456:abc',
+
+            // Custom config used with the "telegram:webhook-setup" artisan command.
+            'webhook'  => [
+                'url'             => null,
+                'certificate'     => null,
+                'max_connections' => 40,
+                'allowed_updates' => [],
             ],
+
+            'commands' => [],
         ],
     ],
+
+    /*
+    |--------------------------------------------------------------------------
+    | Webhook [Optional]
+    |--------------------------------------------------------------------------
+    |
+    | Domain: If you want to set a custom domain for your webhook.
+    | Path: Path is used to construct a webhook route. Default: /telegram
+    | Controller: Responsible to listen to updates and acknowledge to Telegram.
+    |
+    | Example path: telegram
+    | Webhook path: /telegram/{token}/{bot}
+    |
+    */
+
+    'webhook' => [
+        'domain'     => env('TELEGRAM_WEBHOOK_DOMAIN', null),
+        'path'       => env('TELEGRAM_WEBHOOK_PATH', 'telegram'),
+        'controller' => \Telegram\Bot\Laravel\Http\Controllers\WebhookController::class,
+    ],
+
 
     /*
     |--------------------------------------------------------------------------
@@ -87,32 +133,17 @@ return [
     |--------------------------------------------------------------------------
     |
     | If you'd like to use a custom HTTP Client Handler.
-    | Should be an instance of \Telegram\Bot\HttpClients\HttpClientInterface
+    | Should be an instance of \Telegram\Bot\Http\HttpClientInterface
     |
     | Default: GuzzlePHP
     |
     */
 
-    'http_client_handler' => null,
+    'http_client_handler' => \Telegram\Bot\Http\GuzzleHttpClient::class,
 
     /*
     |--------------------------------------------------------------------------
-    | Resolve Injected Dependencies in commands [Optional]
-    |--------------------------------------------------------------------------
-    |
-    | Using Laravel's IoC container, we can easily type hint dependencies in
-    | our command's constructor and have them automatically resolved for us.
-    |
-    | Default: true
-    | Possible Values: (Boolean) "true" OR "false"
-    |
-    */
-
-    'resolve_command_dependencies' => true,
-
-    /*
-    |--------------------------------------------------------------------------
-    | Register Telegram Global Commands [Optional]
+    | Register Global Commands [Optional]
     |--------------------------------------------------------------------------
     |
     | If you'd like to use the SDK's built in command handler system,
@@ -139,12 +170,16 @@ return [
     | You can organize a set of commands into groups which can later,
     | be re-used across all your bots.
     |
-    | You can create 4 types of groups:
+    | You can create [4] types of groups!
+    |
     | 1. Group using full path to command classes.
-    | 2. Group using shared commands: Provide the key name of the shared command
+    |
+    | 2. Group using command repository: Provide the key name of the command from the command repository
     | and the system will automatically resolve to the appropriate command.
+    |
     | 3. Group using other groups of commands: You can create a group which uses other
     | groups of commands to bundle them into one group.
+    |
     | 4. You can create a group with a combination of 1, 2 and 3 all together in one group.
     |
     | Examples shown below are by the group type for you to understand each of them.
@@ -195,22 +230,23 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Shared Commands [Optional]
+    | Command Repository [Optional]
     |--------------------------------------------------------------------------
     |
-    | Shared commands let you register commands that can be shared between,
+    | Command Repository lets you register commands that can be shared between,
     | one or more bots across the project.
     |
     | This will help you prevent from having to register same set of commands,
     | for each bot over and over again and make it easier to maintain them.
     |
-    | Shared commands are not active by default, You need to use the key name to register them,
+    | Command Repository are not active by default, You need to use the key name to register them,
     | individually in a group of commands or in bot commands.
+    |
     | Think of this as a central storage, to register, reuse and maintain them across all bots.
     |
     */
 
-    'shared_commands' => [
+    'command_repository' => [
         // 'start' => Acme\Project\Commands\StartCommand::class,
         // 'stop' => Acme\Project\Commands\StopCommand::class,
         // 'status' => Acme\Project\Commands\StatusCommand::class,
