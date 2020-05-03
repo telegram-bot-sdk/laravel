@@ -9,7 +9,7 @@
     "laravel telegram",
     "laravel telegram bot",
     "laravel telegram bot sdk",
-    "telegram-bot-api"
+    "telegram-bot-sdk"
   ],
   "homepage": "https://github.com/telegram-bot-sdk/laravel",
   "license": "BSD-3-Clause",
