@@ -57,22 +57,14 @@ return [
             ],
 
             'listen' => [
-                'update.received'             => [],
+                'update'                   => [],
+                'webhook.failed'           => [],
 
-                // (Optional).
-                // If you would like to process specific types of updates you may
-                // define the processing class for each type here.
-                'update.message'              => [],
-                'update.edited_message'       => [],
-                'update.channel_post'         => [],
-                'update.edited_channel_post'  => [],
-                'update.inline_query'         => [],
-                'update.chosen_inline_result' => [],
-                'update.callback_query'       => [],
-                'update.shipping_query'       => [],
-                'update.pre_checkout_query'   => [],
-                'update.poll'                 => [],
-                'update.poll_answer'          => [],
+                // Example of various events fired.
+                'message'                  => [],
+                'poll'                     => [],
+                'message.left_chat_member' => [],
+                'inline_query.location'    => [],
             ],
         ],
 

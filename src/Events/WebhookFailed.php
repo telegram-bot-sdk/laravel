@@ -5,9 +5,9 @@ namespace Telegram\Bot\Laravel\Events;
 use Telegram\Bot\Objects\Update;
 use Throwable;
 
-class TelegramWebhookFailed
+class WebhookFailed
 {
-    public const NAME = 'telegram.webhook.failed';
+    public const NAME = 'webhook.failed';
     public string $botname;
     public Update $update;
     public Throwable $exception;
