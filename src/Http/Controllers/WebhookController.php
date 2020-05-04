@@ -3,8 +3,10 @@
 namespace Telegram\Bot\Laravel\Http\Controllers;
 
 use Illuminate\Routing\Controller;
+use Illuminate\Support\Facades\App;
 use Telegram\Bot\BotManager;
-use Telegram\Bot\Exceptions\TelegramSDKException;
+use Telegram\Bot\Laravel\Events\TelegramWebhookFailed;
+use Telegram\Bot\Laravel\Exceptions\WebhookException;
 
 class WebhookController extends Controller
 {
@@ -15,13 +17,23 @@ class WebhookController extends Controller
      * @param string     $token
      * @param string     $bot
      *
-     * @throws TelegramSDKException
-     *
      * @return mixed
      */
     public function __invoke(BotManager $manager, string $token, string $bot)
     {
-        $manager->bot($bot)->listen(true);
+        App::terminating(static function () use ($manager, $bot) {
+            try {
+                $manager->bot($bot)->listen(true);
+            } catch (\Throwable $e) {
+                $event = new TelegramWebhookFailed($bot, $manager->bot($bot)->getWebhookUpdate(), $e);
+
+                $manager->bot($bot)->getEventFactory()->dispatch(TelegramWebhookFailed::NAME, $event);
+
+                event($event);
+
+                throw WebhookException::failedToListenToUpdate($e->getMessage(), $e);
+            }
+        });
 
         return response()->noContent();
     }
