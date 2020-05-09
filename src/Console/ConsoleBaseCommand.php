@@ -1,6 +1,6 @@
 <?php
 
-namespace Telegram\Bot\Laravel\Console\Webhook;
+namespace Telegram\Bot\Laravel\Console;
 
 use Illuminate\Console\Command;
 use Symfony\Component\Console\Input\InputArgument;

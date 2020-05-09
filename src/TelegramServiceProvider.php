@@ -96,7 +96,9 @@ class TelegramServiceProvider extends ServiceProvider
     {
         if ($this->app->runningInConsole()) {
             $this->commands([
-                Console\MakeCommand::class,
+                Console\Command\CommandListCommand::class,
+                Console\Command\CommandMakeCommand::class,
+                Console\Command\CommandRegisterCommand::class,
                 Console\Webhook\WebhookInfoCommand::class,
                 Console\Webhook\WebhookRemoveCommand::class,
                 Console\Webhook\WebhookSetupCommand::class,

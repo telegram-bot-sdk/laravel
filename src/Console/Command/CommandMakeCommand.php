@@ -1,17 +1,17 @@
 <?php
 
-namespace Telegram\Bot\Laravel\Console;
+namespace Telegram\Bot\Laravel\Console\Command;
 
 use Illuminate\Console\GeneratorCommand;
 
-class MakeCommand extends GeneratorCommand
+class CommandMakeCommand extends GeneratorCommand
 {
     /**
      * The console command name.
      *
      * @var string
      */
-    protected $signature = 'telegram:make:command {name : The name of the bot command}';
+    protected $signature = 'telegram:command:make {name : The name of the bot command}';
 
     /**
      * The console command description.
@@ -38,7 +38,7 @@ class MakeCommand extends GeneratorCommand
 
         return file_exists($customPath = $this->laravel->basePath(trim($relativePath, '/')))
             ? $customPath
-            : __DIR__ . '/../..' . $relativePath;
+            : __DIR__ . '/../../..' . $relativePath;
     }
 
     /**

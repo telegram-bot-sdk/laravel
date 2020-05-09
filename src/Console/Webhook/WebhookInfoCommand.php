@@ -7,6 +7,7 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use Symfony\Component\Console\Input\InputOption;
 use Telegram\Bot\Exceptions\TelegramSDKException;
+use Telegram\Bot\Laravel\Console\ConsoleBaseCommand;
 use Telegram\Bot\Objects\WebhookInfo;
 
 class WebhookInfoCommand extends ConsoleBaseCommand
