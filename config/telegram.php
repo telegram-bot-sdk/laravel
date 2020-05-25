@@ -32,8 +32,8 @@ return [
      *       - username: Your Telegram Bot's Username.
      *                   Example: (string) 'BotFather'.
      *
-     *       - token:    Your Telegram Bot's Access Token.
-     * Refer for more details: https://core.telegram.org/bots#botfather
+     *       - token:    Your Telegram Bot Token.
+     *                   Refer for more details: https://core.telegram.org/bots#botfather
      *                   Example: (string) '123456:ABC-DEF1234ghIkl-zyx57W2v1u123ew11'.
      *
      *       - commands: (Optional) Commands to register for this bot,
