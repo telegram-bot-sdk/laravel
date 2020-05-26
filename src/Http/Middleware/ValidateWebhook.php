@@ -21,7 +21,7 @@ class ValidateWebhook
      */
     public function handle($request, Closure $next)
     {
-        abort_unless($this->isTokenValid($request), 401);
+        abort_unless($this->isTokenValid($request), 403);
 
         return $next($request);
     }
