@@ -114,7 +114,18 @@ class WebhookInfoCommand extends ConsoleBaseCommand
     protected function getWebhookInfo(string $name): ?array
     {
         $bot = $this->manager->bot($name);
-        $webhook = $bot->getWebhookInfo();
+
+        try {
+            $webhook = $bot->getWebhookInfo();
+        } catch (TelegramSDKException $e) {
+            $error = ($e->getCode() === 401) ? $e->getMessage() . ' - Token not properly configured' : $e->getMessage();
+
+            $this->line('');
+            $this->warn(sprintf("Skipped bot [%s] due to Error: %s", $name, $error));
+            $this->line('');
+
+            return null;
+        }
 
         return [
             'name'                   => $name,
