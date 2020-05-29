@@ -20,7 +20,7 @@ Documentation for the SDK & Laravel usage can be found on the [website][link-doc
 
 ## Are You Using Telegram Bot SDK?
 
-If you're using this SDK to build your Telegram Bots or have a project that's relevant to this SDK, We'd love to know and share it with the world.
+If you're using Telegram Bot SDK build your Telegram Bots or have a project that's relevant to the SDK, We'd love to know and share it with the world.
 
 Head over to [Awesome Telegram Bots][link-awesome-telegram-bots] to share, discover, and learn more.
 
