@@ -30,6 +30,7 @@
     "irazasyed/larasupport": "Allows you to use any Laravel Package in Lumem"
   },
   "config": {
+    "preferred-install": "dist",
     "sort-packages": true
   },
   "extra": {
@@ -55,6 +56,8 @@
       "Telegram\\Bot\\Laravel\\Tests\\": "tests/"
     }
   },
+  "minimum-stability": "dev",
+  "prefer-stable": true,
   "scripts": {
     "test": "phpunit"
   },
