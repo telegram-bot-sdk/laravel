@@ -116,6 +116,7 @@ class WebhookInfoCommand extends ConsoleBaseCommand
         $bot = $this->manager->bot($name);
 
         try {
+            $profile = $bot->getMe();
             $webhook = $bot->getWebhookInfo();
         } catch (TelegramSDKException $e) {
             $error = ($e->getCode() === 401) ? $e->getMessage() . ' - Token not properly configured' : $e->getMessage();
@@ -129,7 +130,7 @@ class WebhookInfoCommand extends ConsoleBaseCommand
 
         return [
             'name'                   => $name,
-            'username'               => $bot->config('username'),
+            'username'               => $profile->username,
             'pending_update_count'   => $webhook->get('pending_update_count', 0),
             'max_connections'        => $webhook->get('max_connections', static::DEFAULT_MAX_CONNECTIONS),
             'has_custom_certificate' => $this->presentBool($webhook->has_custom_certificate),
@@ -183,14 +184,15 @@ class WebhookInfoCommand extends ConsoleBaseCommand
     /**
      * Display the webhook information on the console.
      *
-     * @param array $data
+     * @param  array  $data
      *
+     * @throws \JsonException
      * @return void
      */
     protected function displayWebhookInfo(array $data): void
     {
         if ($this->option('json')) {
-            $this->line(json_encode(array_values($data)));
+            $this->line(json_encode(array_values($data), JSON_THROW_ON_ERROR));
 
             return;
         }
@@ -221,7 +223,8 @@ class WebhookInfoCommand extends ConsoleBaseCommand
             return array_intersect($availableColumns, $this->compactColumns);
         }
 
-        if ($columns = $this->option('columns')) {
+        $columns = $this->option('columns');
+        if ($columns) {
             return array_intersect($availableColumns, $this->parseColumns($columns));
         }
 
