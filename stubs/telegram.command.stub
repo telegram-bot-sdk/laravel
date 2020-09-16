@@ -23,7 +23,7 @@ class {{ class }} extends Command
     * @param array     $arguments
     * @param Throwable $exception
     */
-    public function failed(array $arguments, Throwable $exception)
+    public function failed(array $arguments, Throwable $exception): void
     {
         //
     }
