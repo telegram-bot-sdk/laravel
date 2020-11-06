@@ -101,7 +101,8 @@ class TelegramServiceProvider extends ServiceProvider
                 Console\Command\CommandRegisterCommand::class,
                 Console\Webhook\WebhookInfoCommand::class,
                 Console\Webhook\WebhookRemoveCommand::class,
-                Console\Webhook\WebhookSetupCommand::class,
+                Console\Webhook\WebhookRegisterCommand::class,
+                Console\Webhook\WebhookExposeCommand::class,
             ]);
         }
     }

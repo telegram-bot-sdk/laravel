@@ -7,21 +7,21 @@ use Telegram\Bot\Bot;
 use Telegram\Bot\Exceptions\TelegramSDKException;
 use Telegram\Bot\Laravel\Console\ConsoleBaseCommand;
 
-class WebhookSetupCommand extends ConsoleBaseCommand
+class WebhookRegisterCommand extends ConsoleBaseCommand
 {
     /**
      * The console command name.
      *
      * @var string
      */
-    protected $name = 'telegram:webhook:setup';
+    protected $name = 'telegram:webhook:register';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Setup webhook with Telegram Bot API';
+    protected $description = 'Register webhook with Telegram Bot API';
 
     /**
      * Execute the console command.
@@ -29,7 +29,7 @@ class WebhookSetupCommand extends ConsoleBaseCommand
     public function handle(): void
     {
         try {
-            $this->setupWebhook($this->bot());
+            $this->registerWebhook($this->bot());
         } catch (\Throwable $e) {
             $this->error($e->getMessage());
         }
@@ -42,9 +42,9 @@ class WebhookSetupCommand extends ConsoleBaseCommand
      *
      * @throws TelegramSDKException
      */
-    protected function setupWebhook(Bot $bot): void
+    protected function registerWebhook(Bot $bot): void
     {
-        $this->comment("Setting webhook for [{$bot->config('bot')}] bot!");
+        $this->comment("Registering webhook for [{$bot->config('bot')}] bot!");
 
         // Bot webhook config.
         $config = $bot->config('webhook', []);
@@ -61,7 +61,7 @@ class WebhookSetupCommand extends ConsoleBaseCommand
             return;
         }
 
-        $this->error('Your webhook could not be set!');
+        $this->error('Your webhook could not be registered!');
     }
 
     protected function webhookUrl(Bot $bot): string
