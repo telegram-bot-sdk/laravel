@@ -103,9 +103,10 @@ class TelegramServiceProvider extends ServiceProvider
                 Console\Webhook\WebhookInfoCommand::class,
                 Console\Webhook\WebhookRemoveCommand::class,
                 Console\Webhook\WebhookRegisterCommand::class,
-            ])
+            ]
+        )
             ->unless($this->app->environment('production'), function (Collection $collection) {
-                    return $collection->merge([Console\Webhook\WebhookExposeCommand::class]);
+                return $collection->merge([Console\Webhook\WebhookExposeCommand::class]);
             })
             ->toArray();
 
