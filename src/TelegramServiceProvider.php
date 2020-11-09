@@ -2,6 +2,7 @@
 
 namespace Telegram\Bot\Laravel;
 
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
 use Telegram\Bot\Api;
@@ -94,15 +95,23 @@ class TelegramServiceProvider extends ServiceProvider
      */
     protected function registerCommands(): void
     {
-        if ($this->app->runningInConsole()) {
-            $this->commands([
+        $commands = collect(
+            [
                 Console\Command\CommandListCommand::class,
                 Console\Command\CommandMakeCommand::class,
                 Console\Command\CommandRegisterCommand::class,
                 Console\Webhook\WebhookInfoCommand::class,
                 Console\Webhook\WebhookRemoveCommand::class,
-                Console\Webhook\WebhookSetupCommand::class,
-            ]);
+                Console\Webhook\WebhookRegisterCommand::class,
+            ]
+        )
+            ->unless($this->app->environment('production'), function (Collection $collection) {
+                return $collection->merge([Console\Webhook\WebhookExposeCommand::class]);
+            })
+            ->toArray();
+
+        if ($this->app->runningInConsole()) {
+            $this->commands($commands);
         }
     }
 

@@ -24,6 +24,7 @@
     "telegram-bot-sdk/telegram-bot-sdk": "^4.0@dev"
   },
   "require-dev": {
+    "beyondcode/expose": "^1.3",
     "phpunit/phpunit": "^8.5 || ^9.0"
   },
   "suggest": {
