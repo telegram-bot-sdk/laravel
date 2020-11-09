@@ -5,7 +5,6 @@ namespace Telegram\Bot\Laravel\Console\Webhook;
 use Exception;
 use File;
 use Symfony\Component\Process\Process;
-use Telegram\Bot\Bot;
 use Telegram\Bot\Exceptions\TelegramSDKException;
 use Telegram\Bot\Laravel\Console\ConsoleBaseCommand;
 use Throwable;
@@ -26,8 +25,10 @@ class WebhookExposeCommand extends ConsoleBaseCommand
      */
     protected $description = 'Expose your webhook online';
 
-    protected string $exposeUrl;
+    protected string $exposeUrl = '';
     protected string $initialBuffer = '';
+    protected Process $process;
+    protected bool $shouldRestart = false;
 
     /**
      * Execute the console command.
@@ -35,38 +36,36 @@ class WebhookExposeCommand extends ConsoleBaseCommand
     public function handle(): void
     {
         try {
-            $this->exposeWebhook($this->bot());
+            $this->exposeWebhook();
         } catch (Throwable $e) {
             $this->error($e->getMessage());
         }
     }
 
     /**
-     * @param Bot $bot
-     *
      * @throws TelegramSDKException
      * @throws Exception
+     * @return int|mixed
      */
-    protected function exposeWebhook(Bot $bot): void
+    protected function exposeWebhook()
     {
-        $this->info("Exposing webhook for [{$bot->config('bot')}] bot!");
+        $this->info("Exposing webhook for [{$this->bot()->config('bot')}] bot!");
         $this->newLine();
+        $this->info("Attempting to register with the Expose Server");
 
-        $process = $this->exposeProcess();
-        $process->start();
-
-        $this->info("Registering with the Expose Server");
-        $process->waitUntil(function ($type, $output) {
-            return $this->detectOnlineUrl($output);
+        $this->process = $this->exposeProcess();
+        $this->process->start();
+        $this->process->waitUntil(function ($type, $output) {
+            return $this->determineStartupStatus($output);
         });
 
-        $this->registerWebhook($bot);
+        if ($this->shouldRestart) {
+            return $this->restartProcess();
+        }
 
-        //Now we have everything registered. Remove the timeout.
-        $process->setTimeout(0);
-        $process->wait(function ($type, $buffer) {
-            $this->processOutput($type, $buffer);
-        });
+        $this->registerWebhook();
+
+        return $this->showRequests();
     }
 
     /**
@@ -83,7 +82,7 @@ class WebhookExposeCommand extends ConsoleBaseCommand
             ]
         ))
             ->setWorkingDirectory(base_path())
-            ->setTimeout(10);
+            ->setTimeout(20);
     }
 
     /**
@@ -101,39 +100,65 @@ class WebhookExposeCommand extends ConsoleBaseCommand
         throw new Exception('Unable to find the Expose binary');
     }
 
-    protected function detectOnlineUrl($output): bool
+    /**
+     * @param $output
+     *
+     * @throws Exception
+     * @return bool
+     */
+    protected function determineStartupStatus($output)
     {
         $this->initialBuffer .= $output;
 
-        if (preg_match('/---(.*?Expose-URL:\s+(.+))/is', $this->initialBuffer, $matches)) {
-            $this->exposeUrl = trim($matches[2]);
-            $this->info('Your access URLs are:');
-            $this->comment($matches[1]);
-            return true;
+        return ($this->exposeTokenError() || $this->detectOnlineUrl());
+    }
+
+    /**
+     * @throws Exception
+     * @return bool
+     */
+    protected function exposeTokenError()
+    {
+        $this->shouldRestart = false;
+
+        if (preg_match('/Authentication failed/i', $this->initialBuffer)) {
+            $this->error("It appears you have not set your Expose token yet or it is invalid!");
+            $this->comment("Visit https://beyondco.de/login to register and generate your Expose token.");
+            $this->comment("This step only ever needs to be done ONCE.");
+            $this->comment("Once you have your token you can continue!");
+
+            $this->tokenSettingProcess($this->ask("Please enter/paste your Expose authentication token"))
+                ->run(function ($type, $buffer) {
+                    return $this->processOutput($type, $buffer);
+                });
+
+            return $this->shouldRestart = true;
         }
 
         return false;
     }
 
     /**
-     * @param Bot $bot
+     * @param string $token
      *
-     * @throws TelegramSDKException
+     * @throws Exception
+     * @return Process
      */
-    protected function registerWebhook(Bot $bot)
+    private function tokenSettingProcess(string $token)
     {
-        $url = "{$this->exposeUrl}/{$bot->getToken()}/{$bot->config('bot')}";
-
-        $this->info("Registering your webhook with Telegram.");
-        if ($bot->setWebhook(compact('url'))) {
-            $this->info("Success: Telegram is now sending updates to:");
-            $this->comment("$url");
-            return;
-        }
-
-        $this->error('Your webhook could not be registered!');
+        return (new Process(
+            [
+                $this->exposeBinary(),
+                'token',
+                $token,
+            ]
+        ));
     }
 
+    /**
+     * @param $type
+     * @param $buffer
+     */
     protected function processOutput($type, $buffer)
     {
         if ($type === Process::ERR) {
@@ -142,5 +167,65 @@ class WebhookExposeCommand extends ConsoleBaseCommand
         }
 
         $this->line($buffer);
+    }
+
+    /**
+     * @return bool
+     */
+    protected function detectOnlineUrl(): bool
+    {
+        if (preg_match('/---\n(.*?Expose-URL:\s+(.+?)\n)/is', $this->initialBuffer, $matches)) {
+            $this->exposeUrl = trim($matches[2]);
+            $this->newLine();
+            $this->info('Success! Your access URLs are:');
+            $this->comment($matches[1]);
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * @throws Exception
+     * @return int|mixed
+     */
+    protected function restartProcess()
+    {
+        $this->process->stop();
+        $this->initialBuffer = '';
+        $this->alert('Restarting the command.');
+        return $this->exposeWebhook();
+    }
+
+    /**
+     * @throws TelegramSDKException
+     */
+    protected function registerWebhook()
+    {
+        $url = "{$this->exposeUrl}/{$this->bot()->getToken()}/{$this->bot()->config('bot')}";
+
+        $this->info("Attempting to register your webhook with Telegram.");
+        if ($this->bot()->setWebhook(compact('url'))) {
+            $this->newLine();
+            $this->info("Success! Telegram is now sending updates to:");
+            $this->comment("$url");
+            return;
+        }
+
+        $this->error('Your webhook could not be registered!');
+    }
+
+    /**
+     * @return int
+     */
+    protected function showRequests()
+    {
+        //Now we have everything registered.
+        //Remove the timeout and show inbound connections as they occur.
+        return $this->process
+            ->setTimeout(0)
+            ->wait(function ($type, $buffer) {
+                $this->processOutput($type, $buffer);
+            });
     }
 }
