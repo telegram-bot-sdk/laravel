@@ -2,12 +2,11 @@
 
 namespace Telegram\Bot\Laravel;
 
-use Illuminate\Support\Facades\Route;
-use Illuminate\Support\ServiceProvider;
 use Telegram\Bot\Api;
 use Telegram\Bot\Bot;
 use Telegram\Bot\BotManager;
-use Telegram\Bot\Laravel\Http\Middleware\ValidateWebhook;
+use Illuminate\Support\Facades\Route;
+use Illuminate\Support\ServiceProvider;
 
 /**
  * Class TelegramServiceProvider.
@@ -15,13 +14,27 @@ use Telegram\Bot\Laravel\Http\Middleware\ValidateWebhook;
 class TelegramServiceProvider extends ServiceProvider
 {
     /**
+     * Register the service provider.
+     *
+     * @return void
+     */
+    public function register(): void
+    {
+        $this->mergeConfigFrom(__DIR__.'/../config/telegram.php', 'telegram');
+
+        $this->registerBindings();
+    }
+
+    /**
      * Boot the service provider.
      *
      * @return void
      */
     public function boot(): void
     {
+        $this->offerPublishing();
         $this->registerRoutes();
+        $this->registerCommands();
     }
 
     /**
@@ -29,34 +42,14 @@ class TelegramServiceProvider extends ServiceProvider
      */
     protected function registerRoutes(): void
     {
-        Route::group([
-            'domain'     => config('telegram.webhook.domain', null),
-            'prefix'     => config('telegram.webhook.path'),
-            'middleware' => ValidateWebhook::class,
-        ], function () {
-            $this->loadRoutesFrom(__DIR__ . '/../routes/telegram.php');
-        });
-    }
-
-    /**
-     * Register the service provider.
-     *
-     * @return void
-     */
-    public function register(): void
-    {
-        $this->configure();
-        $this->offerPublishing();
-        $this->registerBindings();
-        $this->registerCommands();
-    }
-
-    /**
-     * Setup the configuration.
-     */
-    protected function configure(): void
-    {
-        $this->mergeConfigFrom(__DIR__ . '/../config/telegram.php', 'telegram');
+        if (Telegram::$registersRoutes) {
+            Route::group([
+                'domain' => config('telegram.webhook.domain', null),
+                'prefix' => config('telegram.webhook.path'),
+            ], function () {
+                $this->loadRoutesFrom(__DIR__.'/../routes/telegram.php');
+            });
+        }
     }
 
     /**
@@ -64,11 +57,17 @@ class TelegramServiceProvider extends ServiceProvider
      */
     protected function offerPublishing(): void
     {
-        if ($this->app->runningInConsole()) {
-            $this->publishes([
-                __DIR__ . '/../config/telegram.php' => config_path('telegram.php'),
-            ], 'telegram-config');
+        if (!$this->app->runningInConsole()) {
+            return;
         }
+
+        $this->publishes([
+            __DIR__.'/../config/telegram.php' => config_path('telegram.php'),
+        ], 'telegram-config');
+
+        $this->publishes([
+            __DIR__.'/../routes/telegram.php' => base_path('routes/telegram.php'),
+        ], 'telegram-routes');
     }
 
     /**
@@ -78,14 +77,14 @@ class TelegramServiceProvider extends ServiceProvider
     {
         $this->app->bind(
             BotManager::class,
-            fn ($app) => (new BotManager(config('telegram')))->setContainer($app)
+            fn($app) => (new BotManager(config('telegram')))->setContainer($app)
         );
         $this->app->alias(BotManager::class, 'telegram');
 
-        $this->app->bind(Bot::class, fn ($app) => $app[BotManager::class]->bot());
+        $this->app->bind(Bot::class, fn($app) => $app[BotManager::class]->bot());
         $this->app->alias(Bot::class, 'telegram.bot');
 
-        $this->app->bind(Api::class, fn ($app) => $app[Bot::class]->getApi());
+        $this->app->bind(Api::class, fn($app) => $app[Bot::class]->getApi());
         $this->app->alias(Api::class, 'telegram.api');
     }
 
@@ -94,16 +93,19 @@ class TelegramServiceProvider extends ServiceProvider
      */
     protected function registerCommands(): void
     {
-        if ($this->app->runningInConsole()) {
-            $this->commands([
-                Console\Command\CommandListCommand::class,
-                Console\Command\CommandMakeCommand::class,
-                Console\Command\CommandRegisterCommand::class,
-                Console\Webhook\WebhookInfoCommand::class,
-                Console\Webhook\WebhookRemoveCommand::class,
-                Console\Webhook\WebhookSetupCommand::class,
-            ]);
+        if (!$this->app->runningInConsole()) {
+            return;
         }
+
+        $this->commands([
+            Console\InstallCommand::class,
+            Console\Command\CommandListCommand::class,
+            Console\Command\CommandMakeCommand::class,
+            Console\Command\CommandRegisterCommand::class,
+            Console\Webhook\WebhookInfoCommand::class,
+            Console\Webhook\WebhookRemoveCommand::class,
+            Console\Webhook\WebhookSetupCommand::class,
+        ]);
     }
 
     /**

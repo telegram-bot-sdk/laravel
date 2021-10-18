@@ -39,8 +39,8 @@ return [
      *                   Example: (array) [
      *                       'admin', // Command Group Name.
      *                       'status', // Command Repository Name.
-     *                       'hello' => Acme\Project\Commands\HelloCommand::class,
-     *                       'bye'   => Acme\Project\Commands\ByeCommand::class,
+     *                       'hello' => App\Telegram\Commands\HelloCommand::class,
+     *                       'bye'   => App\Telegram\Commands\ByeCommand::class,
      *                   ]
      */
 
@@ -49,7 +49,7 @@ return [
             'token'    => env('TELEGRAM_BOT_TOKEN', 'YOUR-BOT-TOKEN'),
 
             'commands' => [
-//                'start' => Acme\Bots\TelegramBot\Commands\Start::class,
+                // 'start' => App\Telegram\Commands\Start::class,
             ],
 
             'listen' => [
@@ -88,7 +88,7 @@ return [
      * Path: Path is used to construct a webhook route. Default: /telegram
      * Controller: Responsible to listen to updates and acknowledge to Telegram.
      *
-     * Example path: telegram
+     * Default path: telegram
      * Webhook path: /telegram/{token}/{bot}
      *
      */
@@ -184,7 +184,7 @@ return [
      */
 
     'command_repository' => [
-        // 'start' => Acme\Project\Commands\StartCommand::class,
-        // 'stop' => Acme\Project\Commands\StopCommand::class,
+        // 'start' => App\Telegram\Commands\StartCommand::class,
+        // 'stop' => App\Telegram\Commands\StopCommand::class,
     ],
 ];
