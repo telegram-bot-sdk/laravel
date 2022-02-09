@@ -20,7 +20,7 @@
     }
   ],
   "require": {
-    "illuminate/console": "6 - 8",
+    "illuminate/console": "6 - 9",
     "telegram-bot-sdk/telegram-bot-sdk": "^4.0@dev"
   },
   "require-dev": {
