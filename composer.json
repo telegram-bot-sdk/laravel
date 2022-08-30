@@ -66,6 +66,6 @@
     "forum": "https://phpchat.co",
     "chat": "https://t.me/PHPChatCo",
     "source": "https://github.com/telegram-bot-sdk/laravel",
-    "docs": "https://telegrambotsdk.com"
+    "docs": "https://telegram-bot-sdk.com"
   }
 }
