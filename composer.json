@@ -20,11 +20,11 @@
     }
   ],
   "require": {
-    "illuminate/console": "6 - 9",
+    "illuminate/console": "^10",
     "telegram-bot-sdk/telegram-bot-sdk": "^4.0@dev"
   },
   "require-dev": {
-    "phpunit/phpunit": "^8.5 || ^9.0"
+    "phpunit/phpunit": "^9.6"
   },
   "suggest": {
     "irazasyed/larasupport": "Allows you to use any Laravel Package in Lumem"
