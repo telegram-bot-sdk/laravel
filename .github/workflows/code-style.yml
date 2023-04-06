@@ -1,25 +1,11 @@
 name: Code Style
 
-on: [push]
+on:
+  push:
+    paths:
+      - '**.php'
+      - 'code-style.yml'
 
 jobs:
-  php-cs-fixer:
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-        with:
-          ref: ${{ github.head_ref }}
-
-      - name: Run PHP CS Fixer
-        uses: docker://oskarstark/php-cs-fixer-ga
-        with:
-          args: --config=.php_cs.dist --allow-risky=yes
-
-      - name: Commit changes
-        uses: stefanzweifel/git-auto-commit-action@v4
-        with:
-          commit_message: Apply PHP CS Fixer changes
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  code-style:
+    uses: telegram-bot-sdk/.github/.github/workflows/code-style.yml@main

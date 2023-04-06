@@ -1,7 +1,8 @@
 {
   "name": "telegram-bot-sdk/laravel",
-  "type": "library",
   "description": "Laravel Package for Telegram Bot SDK",
+  "license": "BSD-3-Clause",
+  "type": "library",
   "keywords": [
     "telegram bot sdk laravel",
     "php telegram bot",
@@ -11,41 +12,35 @@
     "laravel telegram bot sdk",
     "telegram-bot-sdk"
   ],
-  "homepage": "https://github.com/telegram-bot-sdk/laravel",
-  "license": "BSD-3-Clause",
   "authors": [
     {
       "name": "Irfaq Syed",
       "homepage": "https://github.com/irazasyed"
     }
   ],
+  "homepage": "https://github.com/telegram-bot-sdk/laravel",
+  "support": {
+    "issues": "https://github.com/telegram-bot-sdk/laravel/issues",
+    "forum": "https://phpchat.co",
+    "chat": "https://t.me/PHPChatCo",
+    "source": "https://github.com/telegram-bot-sdk/laravel",
+    "docs": "https://telegram-bot-sdk.com"
+  },
   "require": {
     "illuminate/console": "^10",
     "telegram-bot-sdk/telegram-bot-sdk": "^4.0@dev"
   },
   "require-dev": {
-    "phpunit/phpunit": "^9.6"
+    "irazasyed/docgen": "^0.2",
+    "pestphp/pest": "^2.0",
+    "php-parallel-lint/php-parallel-lint": "^1.3",
+    "rector/rector": "^0.15.24"
   },
   "suggest": {
     "irazasyed/larasupport": "Allows you to use any Laravel Package in Lumem"
   },
-  "config": {
-    "preferred-install": "dist",
-    "sort-packages": true
-  },
-  "extra": {
-    "branch-alias": {
-      "dev-master": "4.x-dev"
-    },
-    "laravel": {
-      "providers": [
-        "Telegram\\Bot\\Laravel\\TelegramServiceProvider"
-      ],
-      "aliases": {
-        "Telegram": "Telegram\\Bot\\Laravel\\Facades\\Telegram"
-      }
-    }
-  },
+  "minimum-stability": "dev",
+  "prefer-stable": true,
   "autoload": {
     "psr-4": {
       "Telegram\\Bot\\Laravel\\": "src/"
@@ -56,16 +51,39 @@
       "Telegram\\Bot\\Laravel\\Tests\\": "tests/"
     }
   },
-  "minimum-stability": "dev",
-  "prefer-stable": true,
-  "scripts": {
-    "test": "phpunit"
+  "config": {
+    "allow-plugins": {
+      "pestphp/pest-plugin": true,
+      "thecodingmachine/discovery": true
+    },
+    "preferred-install": "dist",
+    "sort-packages": true
   },
-  "support": {
-    "issues": "https://github.com/telegram-bot-sdk/laravel/issues",
-    "forum": "https://phpchat.co",
-    "chat": "https://t.me/PHPChatCo",
-    "source": "https://github.com/telegram-bot-sdk/laravel",
-    "docs": "https://telegram-bot-sdk.com"
+  "extra": {
+    "branch-alias": {
+      "dev-main": "4.x-dev"
+    },
+    "laravel": {
+      "aliases": {
+        "Telegram": "Telegram\\Bot\\Laravel\\Facades\\Telegram"
+      },
+      "providers": [
+        "Telegram\\Bot\\Laravel\\TelegramServiceProvider"
+      ]
+    }
+  },
+  "scripts": {
+    "docgen": "docgen",
+    "refactor": "rector --debug",
+    "test": [
+      "@test:lint",
+      "@test:refactor",
+      "@test:unit"
+    ],
+    "test:coverage": "pest --coverage --colors=always",
+    "test:docgen": "docgen -d",
+    "test:lint": "parallel-lint . --blame --colors --exclude vendor",
+    "test:refactor": "rector --dry-run",
+    "test:unit": "pest --colors=always"
   }
 }
