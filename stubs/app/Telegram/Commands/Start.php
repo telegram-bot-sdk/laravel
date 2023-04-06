@@ -2,8 +2,8 @@
 
 namespace App\Telegram\Commands;
 
-use Throwable;
 use Telegram\Bot\Commands\Command;
+use Throwable;
 
 class Start extends Command
 {
@@ -21,15 +21,12 @@ class Start extends Command
 
         $this->bot->sendMessage([
             'chat_id' => $message->chat->id,
-            'text'    => $text,
+            'text' => $text,
         ]);
     }
 
     /**
      * Triggered on failure.
-     *
-     * @param array     $arguments
-     * @param Throwable $exception
      */
     public function failed(array $arguments, Throwable $exception): void
     {

@@ -12,12 +12,10 @@ class ValidateWebhook
     /**
      * Handle an incoming request.
      *
-     * @param Request $request
-     * @param Closure $next
+     * @param  Request  $request
+     * @return mixed
      *
      * @throws TelegramSDKException
-     *
-     * @return mixed
      */
     public function handle($request, Closure $next)
     {
@@ -29,11 +27,9 @@ class ValidateWebhook
     /**
      * Determine if given request has a valid bot name and token that matches.
      *
-     * @param Request $request
+     * @param  Request  $request
      *
      * @throws TelegramSDKException
-     *
-     * @return bool
      */
     public function isTokenValid($request): bool
     {

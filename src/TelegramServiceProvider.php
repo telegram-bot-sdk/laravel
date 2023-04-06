@@ -2,11 +2,11 @@
 
 namespace Telegram\Bot\Laravel;
 
+use Illuminate\Support\Facades\Route;
+use Illuminate\Support\ServiceProvider;
 use Telegram\Bot\Api;
 use Telegram\Bot\Bot;
 use Telegram\Bot\BotManager;
-use Illuminate\Support\Facades\Route;
-use Illuminate\Support\ServiceProvider;
 
 /**
  * Class TelegramServiceProvider.
@@ -15,8 +15,6 @@ class TelegramServiceProvider extends ServiceProvider
 {
     /**
      * Register the service provider.
-     *
-     * @return void
      */
     public function register(): void
     {
@@ -27,8 +25,6 @@ class TelegramServiceProvider extends ServiceProvider
 
     /**
      * Boot the service provider.
-     *
-     * @return void
      */
     public function boot(): void
     {
@@ -57,7 +53,7 @@ class TelegramServiceProvider extends ServiceProvider
      */
     protected function offerPublishing(): void
     {
-        if (!$this->app->runningInConsole()) {
+        if (! $this->app->runningInConsole()) {
             return;
         }
 
@@ -77,14 +73,14 @@ class TelegramServiceProvider extends ServiceProvider
     {
         $this->app->bind(
             BotManager::class,
-            fn($app) => (new BotManager(config('telegram')))->setContainer($app)
+            fn ($app) => (new BotManager(config('telegram')))->setContainer($app)
         );
         $this->app->alias(BotManager::class, 'telegram');
 
-        $this->app->bind(Bot::class, fn($app) => $app[BotManager::class]->bot());
+        $this->app->bind(Bot::class, fn ($app) => $app[BotManager::class]->bot());
         $this->app->alias(Bot::class, 'telegram.bot');
 
-        $this->app->bind(Api::class, fn($app) => $app[Bot::class]->getApi());
+        $this->app->bind(Api::class, fn ($app) => $app[Bot::class]->getApi());
         $this->app->alias(Api::class, 'telegram.api');
     }
 
@@ -93,7 +89,7 @@ class TelegramServiceProvider extends ServiceProvider
      */
     protected function registerCommands(): void
     {
-        if (!$this->app->runningInConsole()) {
+        if (! $this->app->runningInConsole()) {
             return;
         }
 
@@ -110,8 +106,6 @@ class TelegramServiceProvider extends ServiceProvider
 
     /**
      * Get the services provided by the provider.
-     *
-     * @return array
      */
     public function provides(): array
     {

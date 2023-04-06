@@ -2,8 +2,8 @@
 
 namespace App\Providers;
 
-use Telegram\Bot\Laravel\Telegram;
 use Illuminate\Support\ServiceProvider;
+use Telegram\Bot\Laravel\Telegram;
 
 class TelegramServiceProvider extends ServiceProvider
 {

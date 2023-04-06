@@ -38,7 +38,6 @@ class WebhookSetupCommand extends ConsoleBaseCommand
     /**
      * Setup Webhook.
      *
-     * @param Bot $bot
      *
      * @throws TelegramSDKException
      */
@@ -72,7 +71,7 @@ class WebhookSetupCommand extends ConsoleBaseCommand
 
         return Str::replaceFirst('http:', 'https:', route('telegram.bot.webhook', [
             'token' => $bot->config('token'),
-            'bot'   => $bot->config('bot'),
+            'bot' => $bot->config('bot'),
         ]));
     }
 }

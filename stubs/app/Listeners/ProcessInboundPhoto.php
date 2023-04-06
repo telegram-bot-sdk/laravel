@@ -2,9 +2,9 @@
 
 namespace App\Listeners;
 
-use Telegram\Bot\Objects\PhotoSize;
 use Telegram\Bot\Events\UpdateEvent;
 use Telegram\Bot\Exceptions\TelegramSDKException;
+use Telegram\Bot\Objects\PhotoSize;
 
 /**
  * Class ProcessInboundPhoto
@@ -14,7 +14,6 @@ class ProcessInboundPhoto
     /**
      * Handle the event.
      *
-     * @param  UpdateEvent  $event
      *
      * @throws TelegramSDKException
      */
@@ -32,7 +31,7 @@ class ProcessInboundPhoto
         $text = 'Thanks for uploading the pic!';
         $bot->sendMessage([
             'chat_id' => $update->getMessage()->chat->id,
-            'text'    => $text,
+            'text' => $text,
         ]);
     }
 }

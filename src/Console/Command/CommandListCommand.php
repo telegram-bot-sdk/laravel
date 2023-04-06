@@ -30,9 +30,6 @@ class CommandListCommand extends ConsoleBaseCommand
         $this->displayCommands($this->getCommandsList());
     }
 
-    /**
-     * @param array $data
-     */
     protected function displayCommands(array $data): void
     {
         $this->table(['Command', 'Description'], $data);
@@ -42,8 +39,6 @@ class CommandListCommand extends ConsoleBaseCommand
      * Get Commands List.
      *
      * @throws TelegramSDKException
-     *
-     * @return array
      */
     protected function getCommandsList(): array
     {

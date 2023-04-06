@@ -37,7 +37,6 @@ class WebhookRemoveCommand extends ConsoleBaseCommand
     /**
      * Remove Webhook.
      *
-     * @param Bot $bot
      *
      * @throws TelegramSDKException
      */

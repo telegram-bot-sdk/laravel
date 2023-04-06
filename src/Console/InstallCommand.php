@@ -3,8 +3,8 @@
 namespace Telegram\Bot\Laravel\Console;
 
 use Illuminate\Console\Command;
-use Illuminate\Filesystem\Filesystem;
 use Illuminate\Console\ConfirmableTrait;
+use Illuminate\Filesystem\Filesystem;
 
 class InstallCommand extends Command
 {
@@ -29,7 +29,7 @@ class InstallCommand extends Command
      */
     public function handle(): void
     {
-        if (!$this->confirmToProceed()) {
+        if (! $this->confirmToProceed()) {
             return;
         }
 
@@ -40,8 +40,6 @@ class InstallCommand extends Command
 
     /**
      * Install the Telegram Bot SDK Scaffolding into the application.
-     *
-     * @return void
      */
     protected function installScaffolding(): void
     {
@@ -90,12 +88,6 @@ class InstallCommand extends Command
 
     /**
      * Replace a given string within a given file.
-     *
-     * @param  string  $search
-     * @param  string  $replace
-     * @param  string  $path
-     *
-     * @return void
      */
     protected function replaceInFile(string $search, string $replace, string $path): void
     {

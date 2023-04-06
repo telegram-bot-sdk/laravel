@@ -10,9 +10,7 @@ return [
      * Here you may specify which of the bots below you wish to use as
      * your default bot for regular use. Of course, you may use many
      * bots at once using the manager class.
-     *
      */
-
     'use' => 'default',
 
     /**
@@ -43,34 +41,33 @@ return [
      *                       'bye'   => App\Telegram\Commands\ByeCommand::class,
      *                   ]
      */
-
     'bots' => [
         'default' => [
-            'token'    => env('TELEGRAM_BOT_TOKEN', 'YOUR-BOT-TOKEN'),
+            'token' => env('TELEGRAM_BOT_TOKEN', 'YOUR-BOT-TOKEN'),
 
             'commands' => [
                 // 'start' => App\Telegram\Commands\Start::class,
             ],
 
             'listen' => [
-                'update'                   => [],
-                'webhook.failed'           => [],
+                'update' => [],
+                'webhook.failed' => [],
 
                 // Example of various events fired.
-                'message'                  => [],
-                'poll'                     => [],
+                'message' => [],
+                'poll' => [],
                 'message.left_chat_member' => [],
-                'inline_query.location'    => [],
+                'inline_query.location' => [],
             ],
         ],
 
         'second' => [
-            'token'    => '123456:abc',
+            'token' => '123456:abc',
 
             // Custom config used with the "telegram:webhook-setup" artisan command.
-            'webhook'  => [
-                'url'             => null,
-                'certificate'     => null,
+            'webhook' => [
+                'url' => null,
+                'certificate' => null,
                 'max_connections' => 40,
                 'allowed_updates' => [],
             ],
@@ -90,12 +87,10 @@ return [
      *
      * Default path: telegram
      * Webhook path: /telegram/{token}/{bot}
-     *
      */
-
     'webhook' => [
-        'domain'     => env('TELEGRAM_WEBHOOK_DOMAIN', null),
-        'path'       => env('TELEGRAM_WEBHOOK_PATH', 'telegram'),
+        'domain' => env('TELEGRAM_WEBHOOK_DOMAIN', null),
+        'path' => env('TELEGRAM_WEBHOOK_PATH', 'telegram'),
         'controller' => \Telegram\Bot\Laravel\Http\Controllers\WebhookController::class,
     ],
 
@@ -108,14 +103,12 @@ return [
      * - async: When set to True, All the requests would be made non-blocking (Async).
      * - api_url: To set the Base API URL.
      * - client: To set HTTP Client. Should be an instance of @see \Telegram\Bot\Contracts\HttpClientInterface::class
-     *
      */
-
     'http' => [
-        'config'  => [],
-        'async'   => env('TELEGRAM_ASYNC_REQUESTS', false),
+        'config' => [],
+        'async' => env('TELEGRAM_ASYNC_REQUESTS', false),
         'api_url' => 'https://api.telegram.org',
-        'client'  => \Telegram\Bot\Http\GuzzleHttpClient::class,
+        'client' => \Telegram\Bot\Http\GuzzleHttpClient::class,
     ],
 
     /**
@@ -132,9 +125,7 @@ return [
      *
      * Default: The SDK registers, a help command which when a user sends /help
      * will respond with a list of available commands and description.
-     *
      */
-
     'commands' => [
         'help' => Telegram\Bot\Commands\HelpCommand::class,
     ],
@@ -161,7 +152,6 @@ return [
      *
      * Examples shown below are by the group type for you to understand each of them.
      */
-
     'command_groups' => [
     ],
 
@@ -180,9 +170,7 @@ return [
      * individually in a group of commands or in bot commands.
      *
      * Think of this as a central storage, to register, reuse and maintain them across all bots.
-     *
      */
-
     'command_repository' => [
         // 'start' => App\Telegram\Commands\StartCommand::class,
         // 'stop' => App\Telegram\Commands\StopCommand::class,

@@ -29,8 +29,6 @@ class CommandMakeCommand extends GeneratorCommand
 
     /**
      * Get the stub file for the generator.
-     *
-     * @return string
      */
     protected function getStub(): string
     {
@@ -38,18 +36,16 @@ class CommandMakeCommand extends GeneratorCommand
 
         return file_exists($customPath = $this->laravel->basePath(trim($relativePath, '/')))
             ? $customPath
-            : __DIR__ . '/../../..' . $relativePath;
+            : __DIR__.'/../../..'.$relativePath;
     }
 
     /**
      * Get the default namespace for the class.
      *
-     * @param string $rootNamespace
-     *
-     * @return string
+     * @param  string  $rootNamespace
      */
     protected function getDefaultNamespace($rootNamespace): string
     {
-        return $rootNamespace . '\Telegram\Commands';
+        return $rootNamespace.'\Telegram\Commands';
     }
 }

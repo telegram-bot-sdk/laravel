@@ -57,7 +57,7 @@ class CommandRegisterCommand extends ConsoleBaseCommand
 
             return BotCommand::make([
                 // Can contain only lowercase English letters, digits and underscores.
-                'command'     => Str::lower($name),
+                'command' => Str::lower($name),
                 'description' => $command->getDescription(),
             ]);
         })->values()->all();

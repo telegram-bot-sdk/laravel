@@ -17,12 +17,10 @@ class WebhookController extends Controller
     /**
      * Listen to incoming update.
      *
-     * @param  BotManager  $manager
-     * @param  string      $token
-     * @param  string      $bot
+     *
+     * @return mixed
      *
      * @throws WebhookException|TelegramSDKException
-     * @return mixed
      */
     public function __invoke(BotManager $manager, string $token, string $bot)
     {
@@ -37,7 +35,7 @@ class WebhookController extends Controller
                 new WebhookFailed($bot, $telegram->getWebhookUpdate(), $e)
               );
 
-              if (!$telegram->getEventFactory()->hasListeners(WebhookFailed::NAME)) {
+              if (! $telegram->getEventFactory()->hasListeners(WebhookFailed::NAME)) {
                   throw WebhookException::failedToListenToUpdate($e->getMessage(), $e);
               }
           }

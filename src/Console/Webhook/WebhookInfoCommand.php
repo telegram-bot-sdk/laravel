@@ -33,25 +33,21 @@ class WebhookInfoCommand extends ConsoleBaseCommand
 
     /**
      * The table headers for the command.
-     *
-     * @var array
      */
     protected array $headers = [
-        'name'                   => 'Name',
-        'username'               => 'Username',
-        'pending_update_count'   => 'Pending Updates',
-        'max_connections'        => 'Max Connections',
+        'name' => 'Name',
+        'username' => 'Username',
+        'pending_update_count' => 'Pending Updates',
+        'max_connections' => 'Max Connections',
         'has_custom_certificate' => 'Certificate',
-        'last_error_date'        => 'Last Error Date',
-        'last_error_message'     => 'Last Error Message',
-        'allowed_updates'        => 'Allowed Updates',
-        'url'                    => 'Webhook URL',
+        'last_error_date' => 'Last Error Date',
+        'last_error_message' => 'Last Error Message',
+        'allowed_updates' => 'Allowed Updates',
+        'url' => 'Webhook URL',
     ];
 
     /**
      * The columns to display when using the "compact" flag.
-     *
-     * @var array
      */
     protected array $compactColumns = [
         'name',
@@ -76,8 +72,6 @@ class WebhookInfoCommand extends ConsoleBaseCommand
 
     /**
      * Get webhooks info to display.
-     *
-     * @return array
      */
     protected function getWebhooks(): array
     {
@@ -105,11 +99,8 @@ class WebhookInfoCommand extends ConsoleBaseCommand
     /**
      * Compile the webhook info into a displayable format.
      *
-     * @param string $name
      *
      * @throws TelegramSDKException
-     *
-     * @return array|null
      */
     protected function getWebhookInfo(string $name): ?array
     {
@@ -119,34 +110,30 @@ class WebhookInfoCommand extends ConsoleBaseCommand
             $profile = $bot->getMe();
             $webhook = $bot->getWebhookInfo();
         } catch (TelegramSDKException $e) {
-            $error = ($e->getCode() === 401) ? $e->getMessage() . ' - Token not properly configured' : $e->getMessage();
+            $error = ($e->getCode() === 401) ? $e->getMessage().' - Token not properly configured' : $e->getMessage();
 
             $this->line('');
-            $this->warn(sprintf("Skipped bot [%s] due to Error: %s", $name, $error));
+            $this->warn(sprintf('Skipped bot [%s] due to Error: %s', $name, $error));
             $this->line('');
 
             return null;
         }
 
         return [
-            'name'                   => $name,
-            'username'               => $profile->username,
-            'pending_update_count'   => $webhook->get('pending_update_count', 0),
-            'max_connections'        => $webhook->get('max_connections', static::DEFAULT_MAX_CONNECTIONS),
+            'name' => $name,
+            'username' => $profile->username,
+            'pending_update_count' => $webhook->get('pending_update_count', 0),
+            'max_connections' => $webhook->get('max_connections', static::DEFAULT_MAX_CONNECTIONS),
             'has_custom_certificate' => $this->presentBool($webhook->has_custom_certificate),
-            'last_error_date'        => $this->presentLastErrorDate($webhook),
-            'last_error_message'     => $webhook->last_error_message,
-            'allowed_updates'        => implode(', ', $webhook->get('allowed_updates', [])),
-            'url'                    => $webhook->url,
+            'last_error_date' => $this->presentLastErrorDate($webhook),
+            'last_error_message' => $webhook->last_error_message,
+            'allowed_updates' => implode(', ', $webhook->get('allowed_updates', [])),
+            'url' => $webhook->url,
         ];
     }
 
     /**
      * Present last error date unix time to readable.
-     *
-     * @param WebhookInfo $webhook
-     *
-     * @return Carbon|null
      */
     protected function presentLastErrorDate(WebhookInfo $webhook): ?Carbon
     {
@@ -157,10 +144,6 @@ class WebhookInfoCommand extends ConsoleBaseCommand
 
     /**
      * Present boolean value as tick or cross.
-     *
-     * @param $value
-     *
-     * @return string
      */
     protected function presentBool($value): string
     {
@@ -169,10 +152,6 @@ class WebhookInfoCommand extends ConsoleBaseCommand
 
     /**
      * Remove unnecessary columns from the webhook.
-     *
-     * @param array $webhooks
-     *
-     * @return array
      */
     protected function pluckColumns(array $webhooks): array
     {
@@ -184,10 +163,8 @@ class WebhookInfoCommand extends ConsoleBaseCommand
     /**
      * Display the webhook information on the console.
      *
-     * @param  array  $data
      *
      * @throws \JsonException
-     * @return void
      */
     protected function displayWebhookInfo(array $data): void
     {
@@ -202,8 +179,6 @@ class WebhookInfoCommand extends ConsoleBaseCommand
 
     /**
      * Get the table headers for the visible columns.
-     *
-     * @return array
      */
     protected function getHeaders(): array
     {
@@ -212,8 +187,6 @@ class WebhookInfoCommand extends ConsoleBaseCommand
 
     /**
      * Get the column names to show (lowercase table headers).
-     *
-     * @return array
      */
     protected function getColumns(): array
     {
@@ -233,10 +206,6 @@ class WebhookInfoCommand extends ConsoleBaseCommand
 
     /**
      * Parse the column list.
-     *
-     * @param array $columns
-     *
-     * @return array
      */
     protected function parseColumns(array $columns): array
     {
