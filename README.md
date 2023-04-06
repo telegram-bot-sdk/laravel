@@ -3,7 +3,7 @@
 <p align="center">
 <a href="https://phpchat.co"><img src="https://img.shields.io/badge/Slack-PHP%20Chat-5c6aaa.svg?logo=slack&labelColor=4A154B&style=for-the-badge" alt="Join PHP Chat"/></a>
 <a href="https://t.me/PHPChatCo"><img src="https://img.shields.io/badge/Chat-on%20Telegram-2CA5E0.svg?logo=telegram&style=for-the-badge" alt="Chat on Telegram"/></a>
-<a href="https://github.com/telegram-bot-sdk/laravel/actions"><img src="https://img.shields.io/github/workflow/status/telegram-bot-sdk/laravel/CI.svg?style=for-the-badge" alt="Build Status"/></a>
+<a href="https://github.com/telegram-bot-sdk/laravel/actions"><img src="https://img.shields.io/github/actions/workflow/status/telegram-bot-sdk/laravel/ci.yml?style=for-the-badge" alt="Build Status"/></a>
 <a href="https://github.com/telegram-bot-sdk/laravel/releases"><img src="https://img.shields.io/github/release/telegram-bot-sdk/laravel.svg?style=for-the-badge" alt="Latest Version"/></a>
 <a href="https://packagist.org/packages/telegram-bot-sdk/laravel"><img src="https://img.shields.io/packagist/dt/telegram-bot-sdk/laravel.svg?style=for-the-badge" alt="Total Downloads"/></a>
 </p>
