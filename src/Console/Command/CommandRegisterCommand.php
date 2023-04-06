@@ -52,7 +52,7 @@ class CommandRegisterCommand extends ConsoleBaseCommand
         $handler = new CommandHandler($this->bot());
         $botCommands = $handler->getCommands();
 
-        $commands = collect($botCommands)->map(static function ($command, $name) use ($handler) {
+        $commands = collect($botCommands)->map(static function ($command, $name) use ($handler): BotCommand {
             $command = $handler->getCommandBus()->resolveCommand($command);
 
             return BotCommand::make([
@@ -62,6 +62,6 @@ class CommandRegisterCommand extends ConsoleBaseCommand
             ]);
         })->values()->all();
 
-        $this->bot()->setMyCommands(compact('commands'));
+        $this->bot()->setMyCommands(['commands' => $commands]);
     }
 }

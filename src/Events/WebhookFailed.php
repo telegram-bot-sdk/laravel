@@ -10,21 +10,12 @@ use Throwable;
  */
 class WebhookFailed
 {
-    public const NAME = 'webhook.failed';
-
-    public string $botname;
-
-    public Update $update;
-
-    public Throwable $exception;
+    final public const NAME = 'webhook.failed';
 
     /**
      * Create a new event instance.
      */
-    public function __construct(string $botname, Update $update, Throwable $exception)
+    public function __construct(public string $botname, public Update $update, public Throwable $exception)
     {
-        $this->botname = $botname;
-        $this->update = $update;
-        $this->exception = $exception;
     }
 }

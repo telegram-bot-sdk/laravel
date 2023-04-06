@@ -13,10 +13,8 @@ class Telegram
 
     /**
      * Configure Telegram Bot SDK Laravel to not register its routes.
-     *
-     * @return static
      */
-    public static function ignoreRoutes()
+    public static function ignoreRoutes(): static
     {
         static::$registersRoutes = false;
 

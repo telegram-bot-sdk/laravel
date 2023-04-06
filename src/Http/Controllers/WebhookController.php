@@ -2,6 +2,7 @@
 
 namespace Telegram\Bot\Laravel\Http\Controllers;
 
+use Throwable;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\App;
 use Telegram\Bot\BotManager;
@@ -24,10 +25,10 @@ class WebhookController extends Controller
      */
     public function __invoke(BotManager $manager, string $token, string $bot)
     {
-        App::terminating(static function () use ($manager, $bot) {
+        App::terminating(static function () use ($manager, $bot): void {
           try {
               $manager->bot($bot)->listen(true);
-          } catch (\Throwable $e) {
+          } catch (Throwable $e) {
               $telegram = $manager->bot($bot);
 
               $telegram->getEventFactory()->dispatch(

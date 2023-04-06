@@ -2,6 +2,7 @@
 
 namespace Telegram\Bot\Laravel\Console\Webhook;
 
+use Throwable;
 use Carbon\Carbon;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
@@ -15,7 +16,7 @@ class WebhookInfoCommand extends ConsoleBaseCommand
     /**
      * Default number of max connections as per API Docs.
      */
-    public const DEFAULT_MAX_CONNECTIONS = 40;
+    final public const DEFAULT_MAX_CONNECTIONS = 40;
 
     /**
      * The console command name.
@@ -65,7 +66,7 @@ class WebhookInfoCommand extends ConsoleBaseCommand
     {
         try {
             $this->displayWebhookInfo($this->getWebhooks());
-        } catch (\Throwable $e) {
+        } catch (Throwable $e) {
             $this->error($e->getMessage());
         }
     }
@@ -87,7 +88,7 @@ class WebhookInfoCommand extends ConsoleBaseCommand
             }
         }
 
-        $rows = $bots->map(fn ($bot, $name) => $this->getWebhookInfo($name))->filter()->all();
+        $rows = $bots->map(fn ($bot, $name): ?array => $this->getWebhookInfo($name))->filter()->all();
 
         if ($this->option('reverse')) {
             $rows = array_reverse($rows);
@@ -137,7 +138,7 @@ class WebhookInfoCommand extends ConsoleBaseCommand
      */
     protected function presentLastErrorDate(WebhookInfo $webhook): ?Carbon
     {
-        return $webhook->last_error_date
+        return $webhook->last_error_date !== 0
             ? Carbon::createFromTimestamp($webhook->last_error_date, config('app.timezone'))
             : null;
     }
@@ -155,9 +156,7 @@ class WebhookInfoCommand extends ConsoleBaseCommand
      */
     protected function pluckColumns(array $webhooks): array
     {
-        return array_map(function ($webhook) {
-            return Arr::only($webhook, $this->getColumns());
-        }, $webhooks);
+        return array_map(fn($webhook): array => Arr::only($webhook, $this->getColumns()), $webhooks);
     }
 
     /**
@@ -211,9 +210,9 @@ class WebhookInfoCommand extends ConsoleBaseCommand
     {
         $results = [];
 
-        foreach ($columns as $i => $column) {
+        foreach ($columns as $column) {
             if (Str::contains($column, ',')) {
-                $results = array_merge($results, explode(',', $column));
+                $results = array_merge($results, explode(',', (string) $column));
             } else {
                 $results[] = $column;
             }

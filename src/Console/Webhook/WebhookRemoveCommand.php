@@ -2,6 +2,7 @@
 
 namespace Telegram\Bot\Laravel\Console\Webhook;
 
+use Throwable;
 use Telegram\Bot\Bot;
 use Telegram\Bot\Exceptions\TelegramSDKException;
 use Telegram\Bot\Laravel\Console\ConsoleBaseCommand;
@@ -29,7 +30,7 @@ class WebhookRemoveCommand extends ConsoleBaseCommand
     {
         try {
             $this->removeWebhook($this->bot());
-        } catch (\Throwable $e) {
+        } catch (Throwable $e) {
             $this->error($e->getMessage());
         }
     }

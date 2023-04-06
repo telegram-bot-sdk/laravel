@@ -2,6 +2,13 @@
 
 namespace Telegram\Bot\Laravel;
 
+use Telegram\Bot\Laravel\Console\InstallCommand;
+use Telegram\Bot\Laravel\Console\Command\CommandListCommand;
+use Telegram\Bot\Laravel\Console\Command\CommandMakeCommand;
+use Telegram\Bot\Laravel\Console\Command\CommandRegisterCommand;
+use Telegram\Bot\Laravel\Console\Webhook\WebhookInfoCommand;
+use Telegram\Bot\Laravel\Console\Webhook\WebhookRemoveCommand;
+use Telegram\Bot\Laravel\Console\Webhook\WebhookSetupCommand;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
 use Telegram\Bot\Api;
@@ -42,7 +49,7 @@ class TelegramServiceProvider extends ServiceProvider
             Route::group([
                 'domain' => config('telegram.webhook.domain', null),
                 'prefix' => config('telegram.webhook.path'),
-            ], function () {
+            ], function (): void {
                 $this->loadRoutesFrom(__DIR__.'/../routes/telegram.php');
             });
         }
@@ -73,7 +80,7 @@ class TelegramServiceProvider extends ServiceProvider
     {
         $this->app->bind(
             BotManager::class,
-            fn ($app) => (new BotManager(config('telegram')))->setContainer($app)
+            fn ($app): BotManager => (new BotManager(config('telegram')))->setContainer($app)
         );
         $this->app->alias(BotManager::class, 'telegram');
 
@@ -94,13 +101,13 @@ class TelegramServiceProvider extends ServiceProvider
         }
 
         $this->commands([
-            Console\InstallCommand::class,
-            Console\Command\CommandListCommand::class,
-            Console\Command\CommandMakeCommand::class,
-            Console\Command\CommandRegisterCommand::class,
-            Console\Webhook\WebhookInfoCommand::class,
-            Console\Webhook\WebhookRemoveCommand::class,
-            Console\Webhook\WebhookSetupCommand::class,
+            InstallCommand::class,
+            CommandListCommand::class,
+            CommandMakeCommand::class,
+            CommandRegisterCommand::class,
+            WebhookInfoCommand::class,
+            WebhookRemoveCommand::class,
+            WebhookSetupCommand::class,
         ]);
     }
 

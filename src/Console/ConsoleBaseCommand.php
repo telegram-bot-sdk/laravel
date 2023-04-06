@@ -10,13 +10,9 @@ use Telegram\Bot\Exceptions\TelegramSDKException;
 
 class ConsoleBaseCommand extends Command
 {
-    protected BotManager $manager;
-
-    public function __construct(BotManager $manager)
+    public function __construct(protected BotManager $manager)
     {
         parent::__construct();
-
-        $this->manager = $manager;
     }
 
     /**

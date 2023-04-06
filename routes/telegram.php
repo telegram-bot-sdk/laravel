@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Route;
 use Telegram\Bot\Laravel\Facades\Telegram;
 use Telegram\Bot\Laravel\Http\Middleware\ValidateWebhook;
 
-Route::group(['middleware' => ValidateWebhook::class], function () {
+Route::group(['middleware' => ValidateWebhook::class], function (): void {
 
     Route::post('/{token}/{bot}', config('telegram.webhook.controller'))->name('telegram.bot.webhook');
 
