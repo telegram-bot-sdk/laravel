@@ -2,11 +2,11 @@
 
 namespace Telegram\Bot\Laravel\Console\Webhook;
 
-use Throwable;
 use Illuminate\Support\Str;
 use Telegram\Bot\Bot;
 use Telegram\Bot\Exceptions\TelegramSDKException;
 use Telegram\Bot\Laravel\Console\ConsoleBaseCommand;
+use Throwable;
 
 class WebhookSetupCommand extends ConsoleBaseCommand
 {

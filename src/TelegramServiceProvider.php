@@ -2,18 +2,18 @@
 
 namespace Telegram\Bot\Laravel;
 
-use Telegram\Bot\Laravel\Console\InstallCommand;
-use Telegram\Bot\Laravel\Console\Command\CommandListCommand;
-use Telegram\Bot\Laravel\Console\Command\CommandMakeCommand;
-use Telegram\Bot\Laravel\Console\Command\CommandRegisterCommand;
-use Telegram\Bot\Laravel\Console\Webhook\WebhookInfoCommand;
-use Telegram\Bot\Laravel\Console\Webhook\WebhookRemoveCommand;
-use Telegram\Bot\Laravel\Console\Webhook\WebhookSetupCommand;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
 use Telegram\Bot\Api;
 use Telegram\Bot\Bot;
 use Telegram\Bot\BotManager;
+use Telegram\Bot\Laravel\Console\Command\CommandListCommand;
+use Telegram\Bot\Laravel\Console\Command\CommandMakeCommand;
+use Telegram\Bot\Laravel\Console\Command\CommandRegisterCommand;
+use Telegram\Bot\Laravel\Console\InstallCommand;
+use Telegram\Bot\Laravel\Console\Webhook\WebhookInfoCommand;
+use Telegram\Bot\Laravel\Console\Webhook\WebhookRemoveCommand;
+use Telegram\Bot\Laravel\Console\Webhook\WebhookSetupCommand;
 
 /**
  * Class TelegramServiceProvider.

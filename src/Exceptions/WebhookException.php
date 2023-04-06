@@ -2,8 +2,8 @@
 
 namespace Telegram\Bot\Laravel\Exceptions;
 
-use Throwable;
 use Telegram\Bot\Exceptions\TelegramSDKException;
+use Throwable;
 
 class WebhookException extends TelegramSDKException
 {

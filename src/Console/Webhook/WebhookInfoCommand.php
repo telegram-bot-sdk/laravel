@@ -2,7 +2,6 @@
 
 namespace Telegram\Bot\Laravel\Console\Webhook;
 
-use Throwable;
 use Carbon\Carbon;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
@@ -10,6 +9,7 @@ use Symfony\Component\Console\Input\InputOption;
 use Telegram\Bot\Exceptions\TelegramSDKException;
 use Telegram\Bot\Laravel\Console\ConsoleBaseCommand;
 use Telegram\Bot\Objects\WebhookInfo;
+use Throwable;
 
 class WebhookInfoCommand extends ConsoleBaseCommand
 {
@@ -156,7 +156,7 @@ class WebhookInfoCommand extends ConsoleBaseCommand
      */
     protected function pluckColumns(array $webhooks): array
     {
-        return array_map(fn($webhook): array => Arr::only($webhook, $this->getColumns()), $webhooks);
+        return array_map(fn ($webhook): array => Arr::only($webhook, $this->getColumns()), $webhooks);
     }
 
     /**

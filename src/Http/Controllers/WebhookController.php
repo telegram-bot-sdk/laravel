@@ -2,13 +2,13 @@
 
 namespace Telegram\Bot\Laravel\Http\Controllers;
 
-use Throwable;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\App;
 use Telegram\Bot\BotManager;
 use Telegram\Bot\Exceptions\TelegramSDKException;
 use Telegram\Bot\Laravel\Events\WebhookFailed;
 use Telegram\Bot\Laravel\Exceptions\WebhookException;
+use Throwable;
 
 /**
  * Class WebhookController
