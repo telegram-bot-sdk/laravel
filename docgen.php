@@ -4,7 +4,7 @@ return [
     'facade' => Telegram\Bot\Laravel\Facades\Telegram::class,
 
     'classes' => [
-        \Telegram\Bot\BotsManager::class,
+        \Telegram\Bot\BotManager::class,
         \Telegram\Bot\Api::class => [
             'setContainer',
             'getWebhookUpdates',
