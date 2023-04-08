@@ -138,7 +138,6 @@ use Telegram\Bot\BotManager;
  * @method static bool hasBot()
  * @method static null|\Telegram\Bot\Bot getBot()
  * @method static \Telegram\Bot\Commands\CommandBus setBot(\Telegram\Bot\Bot $bot)
- *
  */
 class Telegram extends Facade
 {
