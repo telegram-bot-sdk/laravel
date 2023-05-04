@@ -6,7 +6,7 @@ use Illuminate\Support\Str;
 use Telegram\Bot\Commands\CommandHandler;
 use Telegram\Bot\Exceptions\TelegramSDKException;
 use Telegram\Bot\Laravel\Console\ConsoleBaseCommand;
-use Telegram\Bot\Objects\BotCommand;
+use Telegram\Bot\Objects\BotCommand\BotCommand;
 
 class CommandRegisterCommand extends ConsoleBaseCommand
 {

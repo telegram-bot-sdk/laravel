@@ -46,7 +46,7 @@ class WebhookRemoveCommand extends ConsoleBaseCommand
         if ($this->confirm("Are you sure you want to remove the webhook for [{$bot->config('bot')}] bot?")) {
             $this->info('Removing webhook...');
 
-            if ($bot->removeWebhook()) {
+            if ($bot->deleteWebhook()) {
                 $this->info('Webhook removed successfully!');
 
                 return;

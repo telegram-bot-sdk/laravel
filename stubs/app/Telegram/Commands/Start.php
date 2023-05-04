@@ -14,7 +14,7 @@ class Start extends Command
      */
     public function handle()
     {
-        $message = $this->getUpdate()->getMessage();
+        $message = $this->getUpdate()->message;
         $firstName = $message->from->first_name;
 
         $text = "Hello, $firstName! Welcome to our bot!\nType /help to get a list of available commands.";
