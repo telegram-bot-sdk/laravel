@@ -26,20 +26,20 @@ class WebhookController extends Controller
     public function __invoke(BotManager $manager, string $token, string $bot)
     {
         App::terminating(static function () use ($manager, $bot): void {
-          try {
-              $manager->bot($bot)->listen(true);
-          } catch (Throwable $e) {
-              $telegram = $manager->bot($bot);
+            try {
+                $manager->bot($bot)->listen(true);
+            } catch (Throwable $e) {
+                $telegram = $manager->bot($bot);
 
-              $telegram->getEventFactory()->dispatch(
-                WebhookFailed::NAME,
-                new WebhookFailed($bot, $telegram->getWebhookUpdate(), $e)
-              );
+                $telegram->getEventFactory()->dispatch(
+                    WebhookFailed::NAME,
+                    new WebhookFailed($bot, $telegram->getWebhookUpdate(), $e)
+                );
 
-              if (! $telegram->getEventFactory()->hasListeners(WebhookFailed::NAME)) {
-                  throw WebhookException::failedToListenToUpdate($e->getMessage(), $e);
-              }
-          }
+                if (! $telegram->getEventFactory()->hasListeners(WebhookFailed::NAME)) {
+                    throw WebhookException::failedToListenToUpdate($e->getMessage(), $e);
+                }
+            }
         });
 
         return response()->noContent();
