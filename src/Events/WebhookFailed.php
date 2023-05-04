@@ -2,6 +2,7 @@
 
 namespace Telegram\Bot\Laravel\Events;
 
+use Telegram\Bot\Objects\ResponseObject;
 use Telegram\Bot\Objects\Update;
 use Throwable;
 
@@ -15,7 +16,7 @@ class WebhookFailed
     /**
      * Create a new event instance.
      */
-    public function __construct(public string $botname, public Update $update, public Throwable $exception)
+    public function __construct(public string $botname, public ResponseObject $update, public Throwable $exception)
     {
     }
 }
