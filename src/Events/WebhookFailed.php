@@ -3,7 +3,6 @@
 namespace Telegram\Bot\Laravel\Events;
 
 use Telegram\Bot\Objects\ResponseObject;
-use Telegram\Bot\Objects\Update;
 use Throwable;
 
 /**
