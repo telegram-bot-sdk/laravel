@@ -8,7 +8,7 @@ use Illuminate\Support\Str;
 use Symfony\Component\Console\Input\InputOption;
 use Telegram\Bot\Exceptions\TelegramSDKException;
 use Telegram\Bot\Laravel\Console\ConsoleBaseCommand;
-use Telegram\Bot\Objects\WebhookInfo;
+use Telegram\Bot\Objects\ResponseObject;
 use Throwable;
 
 class WebhookInfoCommand extends ConsoleBaseCommand
@@ -136,7 +136,7 @@ class WebhookInfoCommand extends ConsoleBaseCommand
     /**
      * Present last error date unix time to readable.
      */
-    protected function presentLastErrorDate(WebhookInfo $webhook): ?Carbon
+    protected function presentLastErrorDate(ResponseObject $webhook): ?Carbon
     {
         return $webhook->last_error_date !== 0
             ? Carbon::createFromTimestamp($webhook->last_error_date, config('app.timezone'))
