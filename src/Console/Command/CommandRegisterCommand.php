@@ -53,7 +53,7 @@ class CommandRegisterCommand extends ConsoleBaseCommand
         $botCommands = $handler->getCommands();
 
         $commands = collect($botCommands)->map(static function ($command, $name) use ($handler): BotCommand {
-            $command = $handler->getCommandBus()->resolveCommand($command);
+            $command = $handler->getCommandBus()->resolveCommand($command)->setName($name);
 
             return BotCommand::make([
                 // Can contain only lowercase English letters, digits and underscores.
