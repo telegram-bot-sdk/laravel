@@ -46,7 +46,7 @@ class CommandListCommand extends ConsoleBaseCommand
 
         return collect($handler->getCommands())
             ->map(
-                fn ($command, $name): array => [$name, $handler->getCommandBus()->resolveCommand($command)->getDescription()]
+                fn ($command, $name): array => [$name, $handler->getCommandBus()->resolveCommand($command)->setName($name)->getDescription()]
             )->all();
     }
 }
