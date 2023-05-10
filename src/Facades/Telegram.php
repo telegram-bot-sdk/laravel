@@ -3,6 +3,7 @@
 namespace Telegram\Bot\Laravel\Facades;
 
 use Illuminate\Support\Facades\Facade;
+use Telegram\Bot\FakeBot;
 use Telegram\Bot\BotManager;
 
 /**
@@ -148,4 +149,11 @@ class Telegram extends Facade
     {
         return BotManager::class;
     }
+
+
+    public static function fake()
+    {
+        FakeBot::$recording = true;
+    }
+
 }
