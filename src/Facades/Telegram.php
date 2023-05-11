@@ -2,9 +2,9 @@
 
 namespace Telegram\Bot\Laravel\Facades;
 
-use Telegram\Bot\Testing\BotFake;
 use Illuminate\Support\Facades\Facade;
 use Telegram\Bot\BotManager;
+use Telegram\Bot\Testing\BotFake;
 
 /**
  * @see \Telegram\Bot\BotManager
@@ -15,10 +15,6 @@ class Telegram extends Facade
 {
     /**
      * Replace the bound instance with a fake.
-     *
-     * @param  array  $responses
-     *
-     * @return BotFake
      */
     public static function fake(array $responses = []): BotFake
     {
