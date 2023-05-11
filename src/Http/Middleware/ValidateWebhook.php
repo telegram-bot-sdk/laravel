@@ -4,8 +4,8 @@ namespace Telegram\Bot\Laravel\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
-use Telegram\Bot\Helpers\Util;
 use Telegram\Bot\Exceptions\TelegramSDKException;
+use Telegram\Bot\Helpers\Util;
 use Telegram\Bot\Laravel\Facades\Telegram;
 
 class ValidateWebhook

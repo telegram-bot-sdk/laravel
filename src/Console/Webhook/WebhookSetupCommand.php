@@ -4,9 +4,8 @@ namespace Telegram\Bot\Laravel\Console\Webhook;
 
 use Illuminate\Support\Str;
 use Telegram\Bot\Bot;
-use Telegram\Bot\Helpers\Util;
-use Telegram\Bot\Laravel\Facades\Telegram;
 use Telegram\Bot\Exceptions\TelegramSDKException;
+use Telegram\Bot\Helpers\Util;
 use Telegram\Bot\Laravel\Console\ConsoleBaseCommand;
 use Throwable;
 
@@ -59,7 +58,7 @@ class WebhookSetupCommand extends ConsoleBaseCommand
             ->merge($config)
             ->put('url', $this->webhookUrl($bot));
 
-        if(filled($secretToken)) {
+        if (filled($secretToken)) {
             $params->put('secret_token', Util::secretToken($secretToken));
         }
 
