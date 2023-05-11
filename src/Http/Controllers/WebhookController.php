@@ -23,7 +23,7 @@ class WebhookController extends Controller
      *
      * @throws WebhookException|TelegramSDKException
      */
-    public function __invoke(BotManager $manager, string $token, string $bot)
+    public function __invoke(BotManager $manager, string $bot)
     {
         App::terminating(static function () use ($manager, $bot): void {
             try {

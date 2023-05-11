@@ -86,7 +86,7 @@ return [
      * Controller: Responsible to listen to updates and acknowledge to Telegram.
      *
      * Default path: telegram
-     * Webhook path: /telegram/{token}/{bot}
+     * Webhook path: /telegram/{bot}/webhook
      */
     'webhook' => [
         'domain' => env('TELEGRAM_WEBHOOK_DOMAIN', null),

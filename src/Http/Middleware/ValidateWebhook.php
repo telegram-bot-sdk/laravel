@@ -4,6 +4,7 @@ namespace Telegram\Bot\Laravel\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
+use Telegram\Bot\Helpers\Util;
 use Telegram\Bot\Exceptions\TelegramSDKException;
 use Telegram\Bot\Laravel\Facades\Telegram;
 
@@ -19,7 +20,7 @@ class ValidateWebhook
      */
     public function handle($request, Closure $next)
     {
-        abort_unless($this->isTokenValid($request), 403);
+        abort_unless($this->isSecretTokenValid($request), 403);
 
         return $next($request);
     }
@@ -31,8 +32,11 @@ class ValidateWebhook
      *
      * @throws TelegramSDKException
      */
-    public function isTokenValid($request): bool
+    public function isSecretTokenValid($request): bool
     {
-        return Telegram::bot($request->route('bot'))->config('token') === $request->route('token');
+        return Util::isSecretTokenValid(
+            env('TELEGRAM_WEBHOOK_SECRET_TOKEN', Telegram::bot($request->route('bot'))->config('token', '')),
+            $request->header('X-Telegram-Bot-Api-Secret-Token', '')
+        );
     }
 }

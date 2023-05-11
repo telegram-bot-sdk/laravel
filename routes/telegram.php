@@ -6,7 +6,7 @@ use Telegram\Bot\Laravel\Http\Middleware\ValidateWebhook;
 
 Route::group(['middleware' => ValidateWebhook::class], function (): void {
 
-    Route::post('/{token}/{bot}', config('telegram.webhook.controller'))->name('telegram.bot.webhook');
+    Route::post('/{bot}/webhook', config('telegram.webhook.controller'))->name('telegram.bot.webhook');
 
     //    # Longpolling method (manual).
     //    Route::get('/{token}/updates/{bot?}', function ($bot = 'default') {

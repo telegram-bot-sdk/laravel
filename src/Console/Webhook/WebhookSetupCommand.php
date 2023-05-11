@@ -4,6 +4,8 @@ namespace Telegram\Bot\Laravel\Console\Webhook;
 
 use Illuminate\Support\Str;
 use Telegram\Bot\Bot;
+use Telegram\Bot\Helpers\Util;
+use Telegram\Bot\Laravel\Facades\Telegram;
 use Telegram\Bot\Exceptions\TelegramSDKException;
 use Telegram\Bot\Laravel\Console\ConsoleBaseCommand;
 use Throwable;
@@ -49,13 +51,19 @@ class WebhookSetupCommand extends ConsoleBaseCommand
         // Bot webhook config.
         $config = $bot->config('webhook', []);
 
-        // Global webhook config merged with bot config with the latter taking precedence.
-        $params = collect($bot->config('global.webhook'))->except(['domain', 'path', 'controller', 'url'])
-            ->merge($config)
-            ->put('url', $this->webhookUrl($bot))
-            ->all();
+        $secretToken = env('TELEGRAM_WEBHOOK_SECRET_TOKEN', $bot->config('token', ''));
 
-        if ($bot->setWebhook($params)) {
+        // Global webhook config merged with bot config with the latter taking precedence.
+        $params = collect($bot->config('global.webhook'))
+            ->except(['domain', 'path', 'controller', 'url'])
+            ->merge($config)
+            ->put('url', $this->webhookUrl($bot));
+
+        if(filled($secretToken)) {
+            $params->put('secret_token', Util::secretToken($secretToken));
+        }
+
+        if ($bot->setWebhook($params->all())) {
             $this->info('Success: Your webhook has been set!');
 
             return;
@@ -71,7 +79,6 @@ class WebhookSetupCommand extends ConsoleBaseCommand
         }
 
         return Str::replaceFirst('http:', 'https:', route('telegram.bot.webhook', [
-            'token' => $bot->config('token'),
             'bot' => $bot->config('bot'),
         ]));
     }
