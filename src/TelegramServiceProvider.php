@@ -7,6 +7,7 @@ use Illuminate\Support\ServiceProvider;
 use Telegram\Bot\Api;
 use Telegram\Bot\Bot;
 use Telegram\Bot\BotManager;
+use Illuminate\Contracts\Support\DeferrableProvider;
 use Telegram\Bot\Laravel\Console\Command\CommandListCommand;
 use Telegram\Bot\Laravel\Console\Command\CommandMakeCommand;
 use Telegram\Bot\Laravel\Console\Command\CommandRegisterCommand;
@@ -18,7 +19,7 @@ use Telegram\Bot\Laravel\Console\Webhook\WebhookSetupCommand;
 /**
  * Class TelegramServiceProvider.
  */
-class TelegramServiceProvider extends ServiceProvider
+class TelegramServiceProvider extends ServiceProvider implements DeferrableProvider
 {
     /**
      * Register the service provider.
@@ -78,7 +79,7 @@ class TelegramServiceProvider extends ServiceProvider
      */
     protected function registerBindings(): void
     {
-        $this->app->bind(
+        $this->app->singleton(
             BotManager::class,
             fn ($app): BotManager => (new BotManager(config('telegram')))->setContainer($app)
         );
