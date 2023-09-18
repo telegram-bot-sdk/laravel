@@ -27,6 +27,7 @@
     "docs": "https://telegram-bot-sdk.com"
   },
   "require": {
+    "php": ">=8.1",
     "illuminate/console": "^10",
     "telegram-bot-sdk/telegram-bot-sdk": "^4.0@dev"
   },
