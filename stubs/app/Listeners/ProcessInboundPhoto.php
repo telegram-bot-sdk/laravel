@@ -23,7 +23,7 @@ class ProcessInboundPhoto
 
         // Download the largest image to the storage/app directory.
         $photo = collect($update['message']['photo'])->last();
-        $bot->downloadFile($photo, storage_path('app/photos'));
+        $bot->downloadFile($photo['file_id'], storage_path('app/photos'));
 
         // Reply the user.
         $text = 'Thanks for uploading the pic!';
