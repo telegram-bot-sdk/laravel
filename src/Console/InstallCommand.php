@@ -59,8 +59,8 @@ class InstallCommand extends Command
         );
 
         $this->replaceInFile(
-            "'message'                  => [],",
-            "'message'                  => [],\n\n\t\t\t\t'message.photo' => [
+            "'message' => [],",
+            "'message' => [],\n\n\t\t\t\t'message.photo' => [
             \t\t\App\Listeners\ProcessInboundPhoto::class,\n\t\t\t\t],\n",
             config_path('telegram.php')
         );
